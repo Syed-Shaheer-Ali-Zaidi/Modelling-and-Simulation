@@ -3,7 +3,6 @@ import random
 
 mew = 8.98
 Lambda = 2.25
-num_of_cust = 10
 
 def CP(Lambda):
     array = []
@@ -51,3 +50,18 @@ service = []
 for i in range (0, num_of_cust):
     temp = -mew * math.log(random.random())
     service.append(round(temp))
+
+def generate_priority(A, M, Z0, C, a, b, num_of_cust):
+    Z = [Z0]
+    R = []
+    RanNum = []
+    GP =[]
+    for i in range (0, num_of_cust):
+        temp = (A*(Z[i])+C) % M
+        Z.append(temp)
+        R.append(Z[i+1])
+        RanNum.append(R[i]/M)
+        priority = a + RanNum[i] * (b - a)
+        GP.append(round(priority))
+    Z.remove(Z[-1])
+    return Z, R, RanNum, GP
