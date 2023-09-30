@@ -5,15 +5,20 @@ mew = 8.98
 Lambda = 2.25
 num_of_cust = 10
 
-def CP(Lambda, num_of_cust):
+def CP(Lambda):
     array = []
-    for i in range (1, num_of_cust + 1):
+    i=1
+    total = 0
+    num_of_cust = 0
+    while total != 1:
         total = 0
         for x in range (0, i):
             temp = ((Lambda**x)*(math.e**-Lambda))/math.factorial(x)
             total += temp
         array.append(total)
-    return array
+        i+=1
+        num_of_cust+=1
+    return array, num_of_cust
 
 def CPlook(Lambda, num_of_cust):
     array = []
@@ -25,8 +30,8 @@ def CPlook(Lambda, num_of_cust):
         array.append(total)
     return array
 
-arr1 = CP(Lambda, 10)
-arr2 = CPlook(Lambda, 10)
+arr1, num_of_cust = CP(Lambda)
+arr2 = CPlook(Lambda, num_of_cust)
 IA = []
 
 for j in range (1, num_of_cust):
