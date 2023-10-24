@@ -1,6 +1,7 @@
 import math
 import random
 from prettytable import PrettyTable
+import matplotlib.pyplot as plt
 
 Lambda = 2.25
 mew = 8.98
@@ -77,15 +78,18 @@ def qeueing(num_of_cust, arrivals, service):
   
   Z, R, RanNum, GP = generate_priority(A, M, Z0, C, a, b, num_of_cust)
   arrived = []
+  labels = []
   for i in range(len(arrivals)):
         arrived.append({
         "name": f"Process {i + 1}",
         "arrival_time": arrivals[i],
         "service_time": service[i],
         "priority": GP[i],
-    })
+        })
+        labels.append(f"Name {i+1}")
 
-
+  starts = []   
+  width = []   
   table = PrettyTable([
     "Name", "Arrival Time", "Service Time", "Priority", "Service Start Time",
     "Service End Time", "Turnaround Time", "Wait Time", "Response Time"
@@ -149,11 +153,12 @@ def qeueing(num_of_cust, arrivals, service):
 
         table.add_row([
             current["name"], current["arrival_time"], current["service_time"],
-            current["priority"], remaining_times[current["name"]][2],
+            current["priority"], remaining_times[current["name"]][2],                   #table index 4 and 5 have start and end time respectively
             remaining_times[current["name"]][3], turnaround_time, wait_time,
             response_time
         ])
-
+        width.append(remaining_times[current["name"]][3] - remaining_times[current["name"]][2])
+        starts.append(remaining_times[current["name"]][2])
         current = None
         executed += 1
 
@@ -161,6 +166,8 @@ def qeueing(num_of_cust, arrivals, service):
   server_utilization_rate = total_busy_time / time
 
   print(table)
+  #plt.barh(range(len(labels)), width, left=starts, tick_label=labels)
+  #plt.show()
   #print("\n")
   #print(f"\nTotal Service Time: {total_service_time}")
 
